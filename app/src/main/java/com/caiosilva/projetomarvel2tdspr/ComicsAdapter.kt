@@ -9,12 +9,18 @@ import com.caiosilva.projetomarvel2tdspr.databinding.ComicListItemBinding
 
 class ComicsAdapter : ListAdapter<ComicBookData, ComicsAdapter.ComicsViewHolder>(DiffCallBack()) {
 
+    var onClick: (ComicBookData) -> Unit = {}
+
     inner class ComicsViewHolder(val binding: ComicListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(comicBookData: ComicBookData) {
             binding.textViewTitle.text = comicBookData.title
             binding.textViewDescription.text = comicBookData.description
             binding.textViewPageCount.text = comicBookData.pageCount.toString()
+
+            binding.root.setOnClickListener {
+                onClick(comicBookData)
+            }
         }
     }
 
@@ -30,7 +36,8 @@ class ComicsAdapter : ListAdapter<ComicBookData, ComicsAdapter.ComicsViewHolder>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ComicsViewHolder {
         val layoutInflater: LayoutInflater = LayoutInflater.from(parent.context)
-        val binding: ComicListItemBinding = ComicListItemBinding.inflate(layoutInflater)
+        val binding: ComicListItemBinding =
+            ComicListItemBinding.inflate(layoutInflater, parent, false)
         val viewHolder = ComicsViewHolder(binding)
 
         return viewHolder
