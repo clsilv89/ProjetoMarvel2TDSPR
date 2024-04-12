@@ -15,4 +15,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewTitle" />
 
+    <TextView
+        android:id="@+id/textViewAbrirGaleria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Abrir Galeria"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/textViewDescription" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/textViewAbrirGaleria" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

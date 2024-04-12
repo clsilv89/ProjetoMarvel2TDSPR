@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.TextView
 import com.caiosilva.projetomarvel2tdspr.databinding.ActivitySecondBinding
@@ -21,21 +22,36 @@ class SecondActivity : AppCompatActivity() {
         getExtras()
     }
 
-    private fun getExtras() {
-        val stringExtra = intent.getStringExtra("IMAGE_URL").orEmpty()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == 1001 && resultCode == RESULT_OK) {
+            val uri = data?.data
+            val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+            binding.imageView.setImageBitmap(bitmap)
+        }
+    }
 
-        binding.textViewDescription.text = stringExtra
+    private fun getExtras() {
+        val comicBookData =
+            intent.getStringExtra("COMIC_BOOK_DATA").orEmpty().fromJson(ComicBookData::class.java)
+
+        binding.textViewDescription.text = comicBookData.description
         binding.textViewDescription.setOnClickListener {
-            openUrl(stringExtra)
+            openUrl(comicBookData.imageUrl)
         }
 
         binding.textViewDescription.setOnLongClickListener(object : View.OnLongClickListener {
             override fun onLongClick(v: View?): Boolean {
-                shareUrl(stringExtra)
+                shareUrl(comicBookData.imageUrl)
 
                 return true
             }
         })
+    }
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        startActivityForResult(intent, 1001)
     }
 
     private fun openUrl(url: String) {

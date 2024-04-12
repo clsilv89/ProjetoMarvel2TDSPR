@@ -35,9 +35,11 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun openIntent(comicBookcData: ComicBookData) {
+        val comicBookDataString = comicBookcData.toJsonString()
         val intent = Intent(this, SecondActivity::class.java)
-            .putExtra("IMAGE_URL", comicBookcData.imageUrl)
-            .putExtra("EXTRA_INT", 3)
+            .putExtra("COMIC_BOOK_DATA", comicBookDataString)
+//            .putExtra("IMAGE_URL", comicBookcData.imageUrl)
+//            .putExtra("EXTRA_INT", 3)
         startActivity(intent)
     }
 
