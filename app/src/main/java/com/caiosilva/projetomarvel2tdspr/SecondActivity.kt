@@ -20,11 +20,12 @@ class SecondActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         getExtras()
+        openGallery()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == 1001 && resultCode == RESULT_OK) {
+        if (requestCode == 1001 && resultCode == RESULT_OK) {
             val uri = data?.data
             val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
             binding.imageView.setImageBitmap(bitmap)
@@ -51,7 +52,9 @@ class SecondActivity : AppCompatActivity() {
 
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-        startActivityForResult(intent, 1001)
+        binding.textViewAbrirGaleria.setOnClickListener {
+            startActivityForResult(intent, 1001)
+        }
     }
 
     private fun openUrl(url: String) {
